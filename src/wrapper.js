@@ -1,5 +1,3 @@
-const interopRequireDefault = require('@babel/runtime/helpers/interopRequireDefault');
-
 const {
     PING,
     PONG,
@@ -11,7 +9,7 @@ const {
 
 const serializeError = require('./serializeError');
 
-const worker = interopRequireDefault(require(process.argv[2])).default;
+const worker = require(process.argv[2]);
 
 process.on('message', async event => {
     switch (event.type) {
@@ -27,7 +25,7 @@ process.on('message', async event => {
             });
             try {
                 const result = await worker[event.command](...event.args);
-                console.log('result', result);
+                console.log('wrapper.js: result', result);
                 process.send({
                     type: COMMAND_SUCCESS,
                     id: event.id,
