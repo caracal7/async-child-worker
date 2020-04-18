@@ -1,6 +1,6 @@
 let result = 2;
 
-/s/23kjh2314
+
 console.log('Worker started');
 
 module.exports = {
