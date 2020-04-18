@@ -1,30 +1,27 @@
-import chokidar from 'chokidar';
+const chokidar  = require('chokidar');
 
-import { forkProcess } from './forkProcess';
-import { onFileChange } from './onFileChange';
-import { createProxyHandler } from './createProxyHandler';
+const forkProcess  = require('./forkProcess');
+const onFileChange  = require('./onFileChange');
+const createProxyHandler  = require('./createProxyHandler');
 
-export const createWorker = (
-  filename,
-  { watch = false, debug = false } = {}
-) => {
-  const context = {
+module.exports = (
     filename,
-    initialized: null,
-    init: null,
-    process: null,
-    api: Object.create(null),
-    commands: new Map(),
-    watcher: watch ? chokidar.watch(filename) : null,
-    watch,
-    debug
-  };
+    { watch = false, debug = false } = {}
+) => {
+    const context = {
+        filename,
+        initialized: null,
+        init: null,
+        process: null,
+        api: Object.create(null),
+        commands: new Map(),
+        watcher: watch ? chokidar.watch(filename) : null,
+        watch,
+        debug
+    };
 
-  forkProcess(context);
+    forkProcess(context);
 
-  if (context.watch) {
-    context.watcher.on('change', onFileChange.bind(null, context));
-  }
-
-  return new Proxy(Object.create(null), createProxyHandler(context));
+    if (context.watch) context.watcher.on('change', onFileChange.bind(null, context));
+    return new Proxy(Object.create(null), createProxyHandler(context));
 };

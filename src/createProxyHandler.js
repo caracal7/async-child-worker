@@ -1,13 +1,13 @@
-import { getCommandHandler } from './getCommandHandler';
-import { getKillHandler } from './getKillHandler';
+const getCommandHandler = require('./getCommandHandler');
+const getKillHandler = require('./getKillHandler');
 
-export const createProxyHandler = context => ({
-  get(_, command) {
-    switch (command) {
-    case 'kill':
-      return getKillHandler(context, command);
-    default:
-      return getCommandHandler(context, command);
+module.exports = context => ({
+    get(_, command) {
+        switch (command) {
+            case 'kill':
+                return getKillHandler(context, command);
+            default:
+                return getCommandHandler(context, command);
+        }
     }
-  }
 });

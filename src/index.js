@@ -1,3 +1,3 @@
-import { createWorker } from './createWorker';
+const createWorker = require('./createWorker');
 
-export default createWorker;
+module.exports = createWorker;

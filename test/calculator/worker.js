@@ -1,4 +1,7 @@
-let result = 0;
+let result = 40;
+
+
+console.log('Worker started');
 
 module.exports = {
   async set(value) {

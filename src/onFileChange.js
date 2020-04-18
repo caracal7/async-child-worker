@@ -1,12 +1,10 @@
-import { forkProcess } from './forkProcess';
+const forkProcess = require('./forkProcess');
 
-export const onFileChange = context => {
-  context.watcher.unwatch(context.filename);
-  context.watcher.add(context.filename);
+module.exports = context => {
+    context.watcher.unwatch(context.filename);
+    context.watcher.add(context.filename);
 
-  if (context.process) {
-    context.process.kill();
-  }
+    if (context.process) context.process.kill();
 
-  forkProcess(context);
+    forkProcess(context);
 };
