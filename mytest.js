@@ -15,11 +15,15 @@ const app = async () => {
 
     setInterval(async () => {
         console.log('makeRPC')
-
+        //await worker.set(10); // 10
         await worker.add(20); // 30
         await worker.div(2); // 15
         await worker.sub(7); // 8
         await worker.mul(5); // 40
+
+        console.log(await worker.get());
+
+        await worker.clear(); // 0
 
         console.log(await worker.get());
 

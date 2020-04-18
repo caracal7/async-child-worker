@@ -4,7 +4,7 @@ const { fork }  = require('child_process');
 const { PING, PING_PONG_TIMEOUT, PING_INTERVAL } = require( './constants');
 const onEvent  = require('./onEvent');
 
-module.exports =  context => {
+module.exports = context => {
     context.process = fork(path.resolve(__dirname, 'wrapper.js'), [
         context.filename
     ]);
@@ -18,11 +18,16 @@ module.exports =  context => {
         };
 
         const ping = setInterval(() => {
+            if(!context.process.connected) {
+                const reason = `${path.basename(context.filename)}: Process connection fail! Possible due compilation error...`;
+                console.log(reason);
+                return reject(reason);
+            }
             context.process.send({
                 type: PING
             });
         }, PING_INTERVAL);
-        
+
         context.process.send({
             type: PING
         });
